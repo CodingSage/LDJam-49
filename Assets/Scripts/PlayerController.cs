@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,59 +30,57 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 noise = drunkBehaviour.GetNoisyMovement();
 
-        Vector3 rotation = GetRotationDirection();
-        if (rotation != Vector3.zero) 
-        {
-            rotator.RotateTowardsDirection(rotation + noise);
-            // rotation animation
-        } 
-        else
-        {
+        // -ve - backward ; +ve - forward ; 0 - no movement
+        int moving = GetMovement(noise);
 
-        }
+        // -ve - left ; +ve - right ; 0 - no rotation
+        int rotating = GetRotationDirection();
 
-        Vector3 movement = GetMovement();
-        if (movement != Vector3.zero)
-        {
-            mover.MoveInDirection(movement + noise);
-        } 
-        else
-        {
-            mover.Stop();
-            animator.SetBool(AnimatorConstants.MOVING_FORWARD_TAG, false);
-            animator.SetBool(AnimatorConstants.MOVING_BACKWARD_TAG, false);
-        }
+        Animation(moving, rotating);
     }
 
-    private Vector3 GetMovement()
+    private void Animation(int moving, int rotating)
     {
-        Vector3 movement = Vector3.zero;
+        animator.SetBool(AnimatorConstants.MOVING_BACKWARD_TAG, moving < 0);
+        animator.SetBool(AnimatorConstants.MOVING_FORWARD_TAG, moving > 0);
+        animator.SetBool(AnimatorConstants.TURNING, rotating != 0);
+        // set mirroring in turning animation depending on rotation direction; default turn is left
+        animator.SetBool(AnimatorConstants.TURNING_MIRROR, rotating > 0);
+    }
+
+    private int GetMovement(Vector3 noise)
+    {
+        int moving = 0;
         if (Input.GetKey(KeyCode.W))
         {
-            movement = transform.forward;
-            animator.SetBool(AnimatorConstants.MOVING_FORWARD_TAG, true);
-            animator.SetBool(AnimatorConstants.MOVING_BACKWARD_TAG, false);
+            mover.MoveInDirection(transform.forward + noise);
+            moving = 1;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            movement = -transform.forward;
-            animator.SetBool(AnimatorConstants.MOVING_FORWARD_TAG, false);
-            animator.SetBool(AnimatorConstants.MOVING_BACKWARD_TAG, true);
+            moving = -1;
+            mover.MoveInDirection(-transform.forward + noise);
         }
-        return movement;
+        else
+        {
+            mover.Stop();
+        }
+        return moving;
     }
 
-    private Vector3 GetRotationDirection()
+    private int GetRotationDirection()
     {
-        Vector3 rotation = Vector3.zero;
+        int rotating = 0;
         if (Input.GetKey(KeyCode.A))
         {
-            rotation = -transform.right;
+            rotator.RotateTowardsDirection(-transform.right);
+            rotating = -1;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            rotation = transform.right;
+            rotator.RotateTowardsDirection(transform.right);
+            rotating = 1;
         }
-        return rotation;
+        return rotating;
     }
 }

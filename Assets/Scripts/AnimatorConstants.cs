@@ -6,6 +6,6 @@ public class AnimatorConstants
 {
     public const string MOVING_FORWARD_TAG = "MovingForward";
     public const string MOVING_BACKWARD_TAG = "MovingBackward";
-    public const string TURNING_RIGHT = "TurningRight";
-    public const string TURNING_LEFT = "TurningLeft";
+    public const string TURNING = "Turning";
+    public const string TURNING_MIRROR = "TurningMirror";
 }

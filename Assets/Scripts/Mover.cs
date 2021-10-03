@@ -7,7 +7,7 @@ public class Mover : MonoBehaviour
 {
     private Rigidbody body;
 
-    public float velocity = 5f;
+    public float velocity = 1f;
 
     void Start()
     {

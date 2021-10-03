@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Mover))]
 [RequireComponent(typeof(Rotator))]
 [RequireComponent(typeof(DrunkBehaviour))]
+[RequireComponent(typeof(Destructible))]
 public class PlayerController : MonoBehaviour
 {
     private Mover mover;

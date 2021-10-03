@@ -23,4 +23,18 @@ public class Rotator : MonoBehaviour
             newRotation.z = transform.rotation.z;
         transform.rotation = newRotation;
     }
+
+    public void RotateImmediately(Vector3 direction)
+    {
+        direction = Vector3.Normalize(direction);
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, direction, 4.7f, 0f);
+        Quaternion newRotation = Quaternion.LookRotation(newDirection);
+        if (lockX)
+            newRotation.x = transform.rotation.x;
+        if (lockY)
+            newRotation.y = transform.rotation.y;
+        if (lockZ)
+            newRotation.z = transform.rotation.z;
+        transform.rotation = newRotation;
+    }
 }

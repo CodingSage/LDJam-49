@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour
         Vector3 currentPos = transform.position;
         Vector3 newDirection = moveTo - currentPos;
         mover.MoveInDirection(newDirection);
-        rotator.RotateTowardsDirection(newDirection);
+        rotator.RotateImmediately(newDirection);
     }
 
     protected bool GetIsWithinDistance(float maxDistance, Vector3 targetPosition)

@@ -40,4 +40,9 @@ public class Destructible : MonoBehaviour
     {
         animator.SetBool(AnimatorConstants.GAME_OVER, true);
     }
+
+    public int GetHitPoints()
+    {
+        return hitPoints;
+    }
 }
